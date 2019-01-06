@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Slider zoomed</title>
-   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Raleway|Roboto" rel="stylesheet">
    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
    <script type="text/javascript" src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 
@@ -12,7 +12,20 @@
 
 <body>
 
+<div class="conteneur-timer">
+  <div class="conteneur-interne-timer">
+    <div class="timer-style timer-heures">
+      02
+    </div>
+    <div class="timer-style timer-minutes">
+      59
+    </div>
+    <div class="timer-style timer-secondes">
+      55
+    </div>
+  </div>  
 
+</div> 
 
 
 
@@ -21,14 +34,122 @@
   body{
     margin:0;
     padding:0;
+    background-color:#ECE7E5;
   }
+  .conteneur-timer{
+    width:400px;
+    height:150px;
+   position:absolute;
+   top:50%;
+   left:50%;
+    margin-top:20px;
+    margin-left:20px;
+    -webkit-transform:translate(-50%,-50%);
+    -ms-transform:translate(-50%,-50%);
+    transform:translate(-50%,-50%);
+
+  }
+  .conteneur-interne-timer{
+    width:100%;
+    height:100%;
+    position:relative;
+  }
+  .timer-style{
+    width:30%;
+    position:absolute;
+    top:0;
+    background-color:#fff;
+    color:#65626B;
+    border-radius: 15px;
+    font-family: 'Roboto', sans-serif;
+    text-align:center;
+    font-size:80px;
+    padding-top:20px;
+    padding-bottom:20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-shadow: 2px 2px 4px #ccc;
+  }
+  .timer-heures{
+    z-index:1;
+    left:0;  
+  }
+  .timer-minutes{
+    z-index:2;
+    left:50%;  
+    -webkit-transform:translateX(-50%);
+    -ms-transform:translateX(-50%);
+    transform:translateX(-50%);
+  }
+  .timer-secondes{
+    z-index:3;
+    right:0;  
+  }
+
 </style>
 
 <script>
 
    $( window ).on( "load", function() {
-       
+
+      window.counter=55;
+      window.varheures=2;
+      window.varminutes=59;
+  
+      setInterval(compte,1000);
+
     });
+
+   function compte(){
+      counter++;
+      if (counter<10){
+        $('.timer-secondes').html("0"+counter);
+      }else{
+        $('.timer-secondes').html(counter);
+      }
+
+     // $('.timer-secondes').css('top','-10px');
+      $('.timer-secondes').animate({top:'-10px' },100, 'easeOutSine', function() {
+        $('.timer-secondes').animate({top:0 },100, 'easeOutSine', function() { }); 
+      });
+      
+
+      if (counter==60){
+        
+        setTimeout(augementminutes, 50);
+       
+        
+        counter=0;
+        $('.timer-secondes').html("0"+counter);
+      }
+    
+    }
+    function augementminutes(){
+      varminutes++;
+         if (varminutes<10){
+          $('.timer-minutes').html("0"+varminutes);
+         }else{
+          $('.timer-minutes').html(varminutes);
+         }
+         if (varminutes==60){
+          setTimeout(augementheures, 100);
+        }
+        $('.timer-minutes').animate({top:'-10px' },100, 'easeOutSine', function() {
+            $('.timer-minutes').animate({top:0 },100, 'easeOutSine', function() { }); 
+           });
+     } 
+     function augementheures(){
+       varheures++;
+          if (varheures<10){
+          $('.timer-heures').html("0"+varheures);
+         }else{
+          $('.timer-heures').html(varheures);
+         }
+        $('.timer-heures').animate({top:'-10px' },100, 'easeOutSine', function() {
+            $('.timer-heures').animate({top:0 },100, 'easeOutSine', function() { }); 
+           });
+        varminutes=0;
+          $('.timer-minutes').html("0"+varminutes);
+     }
 
 </script>
 
